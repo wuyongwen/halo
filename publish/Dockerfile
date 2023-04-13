@@ -19,6 +19,7 @@ ENV JVM_OPTS="-Xmx256m -Xms256m" \
     TZ=Asia/Shanghai
 ENV MYSQL_HOST="localhost"
 ENV MYSQL_PORT=3306
+ENV MYSQL_PLATFORM="mysql"
 ENV MYSQL_USERNAME="root"
 ENV MYSQL_PASSWORD="root"
 ENV HALO_EXTERNAL_URL="http://localhost:8090/"
@@ -33,6 +34,7 @@ EXPOSE 8090
 ENTRYPOINT ["sh", "-c", "java ${JVM_OPTS} -Dspring.r2dbc.url=r2dbc:pool:mysql://${MYSQL_HOST}:${MYSQL_PORT}/halo \
  -Dspring.r2dbc.username=${MYSQL_USERNAME} \
  -Dspring.r2dbc.password=${MYSQL_PASSWORD} \
+ -Dspring.sql.init.platform=mysql=${MYSQL_PLATFORM} \
  -Dhalo.external-url=${HALO_EXTERNAL_URL} \
  -Dhalo.security.initializer.superadminusername=${SUPER_ADMIN_USERNAME} \
  -Dhalo.security.initializer.superadminpassword=${SUPER_ADMIN_PASSWORD} \
