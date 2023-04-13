@@ -28,10 +28,11 @@ ENV SUPER_ADMIN_PASSWORD="admin"
 
 RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone
-
+RUN echo "MYSQL_HOST: ${MYSQL_HOST}"
 EXPOSE 8090
 
-ENTRYPOINT ["sh", "-c", "java ${JVM_OPTS} -Dspring.r2dbc.url=r2dbc:pool:mysql://${MYSQL_HOST}:${MYSQL_PORT}/halo \
+ENTRYPOINT ["sh", "-c", "java ${JVM_OPTS} \
+ -Dspring.r2dbc.url=r2dbc:pool:mysql://${MYSQL_HOST}:${MYSQL_PORT}/halo \
  -Dspring.r2dbc.username=${MYSQL_USERNAME} \
  -Dspring.r2dbc.password=${MYSQL_PASSWORD} \
  -Dspring.sql.init.platform=mysql=${MYSQL_PLATFORM} \
