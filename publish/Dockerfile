@@ -25,6 +25,7 @@ ENV MYSQL_PASSWORD="root"
 ENV HALO_EXTERNAL_URL="http://localhost:8090/"
 ENV SUPER_ADMIN_USERNAME="admin"
 ENV SUPER_ADMIN_PASSWORD="admin"
+ENV APP_LOG="INFO"
 
 RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone
@@ -35,8 +36,9 @@ ENTRYPOINT ["sh", "-c", "java ${JVM_OPTS} \
  -Dspring.r2dbc.url=r2dbc:pool:mysql://${MYSQL_HOST}:${MYSQL_PORT}/halo \
  -Dspring.r2dbc.username=${MYSQL_USERNAME} \
  -Dspring.r2dbc.password=${MYSQL_PASSWORD} \
- -Dspring.sql.init.platform=mysql=${MYSQL_PLATFORM} \
+ -Dspring.sql.init.platform=${MYSQL_PLATFORM} \
  -Dhalo.external-url=${HALO_EXTERNAL_URL} \
  -Dhalo.security.initializer.superadminusername=${SUPER_ADMIN_USERNAME} \
  -Dhalo.security.initializer.superadminpassword=${SUPER_ADMIN_PASSWORD} \
+ -Dlogging.level.run.halo.app=${APP_LOG} \
  org.springframework.boot.loader.JarLauncher ${0} ${@}"]
